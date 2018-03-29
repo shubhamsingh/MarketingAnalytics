@@ -9,15 +9,15 @@ url = 'https://docs.google.com/spreadsheets/d/1PWWoMqE5o3ChwJbpexeeYkW6p4BHL9hub
 denco2 = as.data.frame(gsheet2tbl(url))
 str(denco2)
 
-head(sales1,n=7)
-names(sales1)
+#head(sales1,n=7)
+#names(sales1)
 
-sales = sales1  # keeping a backup
+sales = denco2  # keeping a backup
 ?summary
 summary(sales)
 
 str(sales)
-sales$revenue= as.numeric(sales$revenue)
+#sales$revenue= as.numeric(sales$revenue)
 dim(sales)
 unique(sales$custname)
 length(unique(sales$custname))
@@ -55,6 +55,13 @@ names(sales)
 sales %>% group_by(custname) %>% 
   summarize(Revenue = sum(revenue)) %>% arrange(desc(Revenue))
 
+sales %>% filter(region=='01-East' & revenue > 400000) %>% select(partnum,region,revenue)
+
+sales %>% filter(region=='01-East' & revenue > 400000) %>% arrange(desc(revenue))
+
+group_by(sales,region)%>%
+summarise(Rev=sum(revenue))%>% arrange(desc(Rev))
+
 
 library(data.table)
 dt1 = as.data.table(sales)
@@ -75,7 +82,9 @@ head(sort(table(sales$custname), decreasing=T))
 
 #xtab
 #
-head(sort(xtabs(~ custname, sales), decreasing=T))
+head(sort(xtabs(~ custname, sales), decreasing=T),n=10)
+
+tail(sort(xtabs(~ custname, sales), decreasing=T),n=10)
 #
 #
 library(dplyr)
@@ -83,6 +92,7 @@ sales %>% dplyr::count(custname, sort=TRUE)
 
 sales %>% dplyr::group_by(custname) %>% dplyr::summarise(n = n()) %>% dplyr::arrange(desc(n))
 
+filter(sales,margin>10000000 & revenue == 12641200)
 
 
 #plyr
@@ -104,7 +114,9 @@ head(df3b[order(df3b$revenue, decreasing=T),])
 sales %>% dplyr::group_by(partnum) %>% dplyr::summarise(n = n()) %>% dplyr::arrange(desc(n))
 
 
+
 # which parts have highest Profit : partno - sum(profit)
 names(sales)
 df4a = aggregate(margin ~ partnum, data=sales, FUN=sum)
 head(df4a)
+
