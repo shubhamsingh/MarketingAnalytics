@@ -23,3 +23,7 @@ v8['C']
 v8 [2:4]
 v8[3]
 v8[c('A','D')]
+
+df = data.frame(rolln0=c(1,2,3), name=c('a','b','c'),course=c('MBA','B.Tech','M.Tech'),marks=floor(runif(3,50,76)))
+df 
+df = fix(df)
