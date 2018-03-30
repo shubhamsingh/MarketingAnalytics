@@ -46,7 +46,8 @@ fitted(fit1)
 
 
 
-
+library(forecast)
+accuracy()
 (mse=sum(residuals(fit1)^2))
 
 cbind(df,fitted(fit1),fitted(fit1)-df$Y, residuals(fit1))
@@ -126,7 +127,7 @@ boxplot(residuals(fit1), names=c('Residuals'))
 identify(rep(1, length(residuals(fit1))), residuals(fit1), labels = seq_along(residuals(fit1)))
 
 car::outlierTest(fit1)
-df1[14,]
+df1[14,]  #see 14row in figure
 
-car::outlierTest(lm(Y ~ X, data=df1[-14,]))
+car::outlierTest(lm(Y ~ X, data=df[-14,]))
 
