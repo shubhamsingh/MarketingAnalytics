@@ -16,6 +16,7 @@ str(df1)
 #class of each column
 sapply(df1, class)
 
+?lapply
 # convert character to factor
 factorcols = c('gender', 'cat', 'class12', 'batch','batchyr', 'br', 'city', 'finalgrade', 'btechfinal')
 
@@ -32,6 +33,8 @@ table(df1$gender)
 sapply(lapply(df1[factorcols],factor,ordered=TRUE), table)  #Method1
 sapply(df1[factorcols], table)   #Method2
 
+sapply(df1[factorcols],table)
+
 str(df1)
 # Numeric Cols
 (numcols = sapply(df1, is.numeric))
@@ -41,7 +44,7 @@ str(df1)
 df1[numcols]
 colSums(df1[numcols],dims=1)
 colMeans(df1[numcols],dims=1)
-
+colMeans(df1[numcols[c(1:10)]])
 
 
 names(df1)

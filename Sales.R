@@ -8,29 +8,48 @@ area1 = "https://docs.google.com/spreadsheets/d/1qLHa5qFTyWacta8F-IGo6J3Zpf-BVR9
 df2 = as.data.frame(gsheet::gsheet2tbl(area1))
 str(df2)
 head(df2)
-df3 = read.csv('./data/salesslr.csv')
+df3 = read.csv('SLR1.csv')
 str(df3)
 df3 = read.csv(file.choose())
 
 # Use Vector Data for this example
-mean(X); mean(Y)
-sum(X); sum(Y)
-cov(X,Y); cov(Y,X)
-cor(X,Y) ; cor(Y,X)
-cor.test(X,Y)
+df=df3
+mean(df$X); mean(df$Y)
+sum(df$X); sum(df$Y)
+cov(df$X,df$Y); cov(df$Y,df$X)
+cor(df$X,df$Y) ; cor(df$Y,df$X)
+cor.test(df$X,df$Y)
 ?plot
-df1 = data.frame(X, Y)
-df1 = data.frame(X,Y)
-head(df1)
 
-plot(y=Y, x=X,xlab='Area in sqft', ylab='Sales Amount', type='p', main='Plot of Area Vs Sales')
-abline(lm(df1$Y ~ df1$X))
-abline(v=c(3,5),h=5.9742, col='red')
+df1 = data.frame(df$X, df$Y)
+df1 = data.frame(df$X,df$Y)
+head(df$df1)
+
+plot(y=Y, x=X,xlab='Area in sqft',xlim = c(0,max(df$X)), ylim = c(0,max(df$Y)),ylab='Sales Amount', type='p', main='Plot of Area Vs Sales',col='green',pch=15)
+abline(lm(df$Y ~ df$X))
+abline(v=c(1,2,3),h=c(1,4), col=c('red','green'))
+
+?lm
 #Model
-fit1 = lm(Y ~ X, data=df1)
+fit1 = lm(Y ~ X , data=df1)
 fit1
+
+abline(h=coef(fit1)[1])
 summary(fit1)
 names(fit1)
+
+#call(df)
+names(fit1)
+fitted(fit1)
+
+
+
+
+
+
+(mse=sum(residuals(fit1)^2))
+
+cbind(df,fitted(fit1),fitted(fit1)-df$Y, residuals(fit1))
 
 coef(fit1)[2]
 # Predictions
@@ -38,6 +57,9 @@ coef(fit1)[2]
 (Y = coef(fit1)[1] + coef(fit1)[2] * 4)  # for X=4
 
 fitted(fit1)
+predict(fit1,newdata = data.frame(x=df$X))
+
+?head
 cbind(df1, fitted(fit1))
 range(df1$X)
 new1 = data.frame(X=c(1.5,2,3,4,5))
@@ -107,3 +129,4 @@ car::outlierTest(fit1)
 df1[14,]
 
 car::outlierTest(lm(Y ~ X, data=df1[-14,]))
+
