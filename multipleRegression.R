@@ -49,7 +49,7 @@ summary(M1)
 summary(df$cyl)
 data.frame(wt=c(2,3),cyl=factor(c(4,6)))
 #wt must be in range
-#predict(M1, newdata = data.frame(wt=c(2,3),cyl=factor(c(4,6))))
+predict(M1, newdata = data.frame(wt=c(2,3),cyl=factor(c(4,6))))
 #Min.   :10.40   Min.   :4.000   Min.   : 71.1   Min.   : 52.0   Min.   :2.760   Min.   :1.513  
 #1st Qu.:15.43   1st Qu.:4.000   1st Qu.:120.8   1st Qu.: 96.5   1st Qu.:3.080   1st Qu.:2.581  
 #Median :19.20   Median :6.000   Median :196.3   Median :123.0   Median :3.695   Median :3.325  
@@ -64,4 +64,12 @@ data.frame(wt=c(2,3),cyl=factor(c(4,6)))
 #3rd Qu.:18.90   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:4.000   3rd Qu.:4.000  
 #Max.   :22.90   Max.   :1.0000   Max.   :1.0000   Max.   :5.000   Max.   :8.000  
 
-
+library(dplyr)
+attach(default)
+(ndata = (slice(Default,seq(0,n(),500))))
+summary(default)
+addmargins(prop.table(table(Default$default,Default$student)))
+(fitted.result=predict(logit,newdata=ndata,type='response'))
+cbind(ndata,fitted.result)
+ndata %>% mutate(predict = ifelse(fitted.result < 0.5,0,1))
+ndata %>% mutate(predict = ifelse(fitted.result < 0.5,'No','Yes'))
