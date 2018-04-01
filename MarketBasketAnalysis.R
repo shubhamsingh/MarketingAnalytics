@@ -52,7 +52,3 @@ plot(rule,measure=c("support","lift"),shadind="confidence")
 
 
 
-
-
-
-
